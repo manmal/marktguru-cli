@@ -1,7 +1,6 @@
 # marktguru-cli 🧘‍♂️
 [![CI](https://github.com/manmal/marktguru-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/manmal/marktguru-cli/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/marktguru-cli.svg)](https://www.npmjs.com/package/marktguru-cli)
-[![npm downloads](https://img.shields.io/npm/dm/marktguru-cli.svg)](https://www.npmjs.com/package/marktguru-cli)
 [![license](https://img.shields.io/github/license/manmal/marktguru-cli.svg)](https://github.com/manmal/marktguru-cli/blob/main/LICENSE)
 
 CLI for Austrian Marktguru supermarket deals.
