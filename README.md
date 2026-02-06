@@ -5,6 +5,9 @@
 
 CLI for Austrian Marktguru supermarket deals.
 
+## AI Agent Skill
+See [SKILL.md](SKILL.md) for a comprehensive reference designed for AI coding agents.
+
 ## Quick Start (Recommended)
 Use `npx` to run without installing anything:
 ```bash
