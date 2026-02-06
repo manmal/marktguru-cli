@@ -27,6 +27,13 @@ pnpm run dev -- --help
 ```
 
 ## Commands
+Quick start with `npx` (no install):
+```bash
+npx --yes marktguru-cli login
+npx --yes marktguru-cli search raw "milch OR soja"
+npx --yes marktguru-cli search build --term milch --or soja
+```
+
 Login (extracts API key via HTTP by scanning the site’s JS):
 ```bash
 marktguru login
