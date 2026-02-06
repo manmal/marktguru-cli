@@ -1,0 +1,9 @@
+scripts/try-http-login.*
+node_modules/
+dist/
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+.DS_Store
+AGENTS.md
+CLAUDE.md

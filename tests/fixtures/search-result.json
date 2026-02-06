@@ -1,0 +1,45 @@
+{
+  "totalResults": 1,
+  "results": [
+    {
+      "id": 123,
+      "price": 1.49,
+      "oldPrice": 1.99,
+      "description": "250 g",
+      "externalUrl": "https://shop.billa.at/produkte/pringles-sour-cream-00742176",
+      "product": {
+        "id": 999,
+        "name": "Test Chips"
+      },
+      "brand": {
+        "name": "SnackCo"
+      },
+      "advertisers": [
+        { "name": "BILLA PLUS" }
+      ],
+      "validityDates": [
+        { "from": "2026-02-01", "to": "2026-02-10" }
+      ],
+      "referencePrice": 5.96,
+      "unit": { "shortName": "kg" },
+      "volume": 0.25,
+      "quantity": 1,
+      "categories": [],
+      "industries": [],
+      "images": [],
+      "imageType": "product",
+      "type": "offer",
+      "requiresLoyalityMembership": false,
+      "leafletFlightId": 1,
+      "externalId": "ext-1",
+      "externalTrackingUrls": [],
+      "externalTrackings": [],
+      "trackFlightImpression": false
+    }
+  ],
+  "filters": {
+    "retailers": [],
+    "brands": [],
+    "categories": []
+  }
+}
