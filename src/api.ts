@@ -46,11 +46,12 @@ export interface SearchOptions {
   limit?: number;
   offset?: number;
   retailerId?: number;
+  apiKey?: string;
 }
 
 export async function search(options: SearchOptions): Promise<SearchResult> {
   const config = await getConfig();
-  const apiKey = config.apiKey;
+  const apiKey = options.apiKey ?? config.apiKey;
   if (!apiKey) {
     throw new Error("No API key configured. Run 'marktguru login' first.");
   }

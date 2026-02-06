@@ -60,6 +60,8 @@ Available for both `search raw` and `search build`:
 - `-r, --retailer <name>`: Filter by retailer (client-side)
 - `-j, --json`: JSON output
 
+If no API key is configured, `search` will automatically run `login` to extract one.
+
 Builder-only:
 - `--term <value>`: Add a term (repeatable)
 - `--phrase <value>`: Add an exact phrase (repeatable)
