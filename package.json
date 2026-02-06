@@ -4,7 +4,7 @@
   "description": "CLI for Austrian Marktguru supermarket deals",
   "type": "module",
   "bin": {
-    "marktguru": "./dist/cli.js"
+    "marktguru": "dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
