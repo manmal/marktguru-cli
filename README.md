@@ -5,34 +5,19 @@
 
 CLI for Austrian Marktguru supermarket deals.
 
-## Requirements
-- Node.js 18+ (built-in `fetch`)
-- Works with `npm`, `pnpm`, and `bun`
-
-## Install
-```bash
-pnpm install
-```
-
-## Build and Run
-```bash
-pnpm run build
-pnpm run start -- --help
-```
-
-Dev mode (TS directly):
-```bash
-pnpm run dev -- --help
-```
-
-## Commands
-Quick start with `npx` (no install):
+## Quick Start (Recommended)
+Use `npx` to run without installing anything:
 ```bash
 npx --yes marktguru-cli login
 npx --yes marktguru-cli search raw "milch OR soja"
 npx --yes marktguru-cli search build --term milch --or soja
 ```
 
+## Requirements
+- Node.js 18+ (built-in `fetch`)
+- Works with `npm`, `pnpm`, and `bun`
+
+## Commands
 Login (extracts API key via HTTP by scanning the site’s JS):
 ```bash
 marktguru login
@@ -61,6 +46,19 @@ marktguru set-zip 1010
 Show config:
 ```bash
 marktguru config
+```
+
+## Also Working (Install Locally)
+Install and run from source:
+```bash
+pnpm install
+pnpm run build
+pnpm run start -- --help
+```
+
+Dev mode (TS directly):
+```bash
+pnpm run dev -- --help
 ```
 
 ## Search Options
