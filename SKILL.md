@@ -1,6 +1,6 @@
 ---
 name: marktguru-grocery-deals
-description: Look up grocery deals and offers via Marktguru CLI/API. Use when user asks about supermarket discounts, product prices, current promotions, or comparing deals across Austrian or German retailers (Hofer, Billa, Spar, Lidl, Penny, Kaufland, etc.).
+description: Look up grocery deals and offers via Marktguru CLI/API. Use when user asks about supermarket discounts, product prices, current promotions, or comparing deals across Austrian or German retailers (Hofer, Billa, Spar, Lidl, Penny, REWE, Kaufland, etc.).
 ---
 
 # Marktguru Grocery Deals
