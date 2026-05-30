@@ -11,6 +11,8 @@ export interface Config {
 
 export const DEFAULT_ZIP_CODE = "1010"; // Vienna
 export const DEFAULT_COUNTRY = "at";
+export const VALID_COUNTRIES = ["at", "de"] as const;
+export type Country = (typeof VALID_COUNTRIES)[number];
 
 const CONFIG_DIR = join(homedir(), ".marktguru");
 const CONFIG_FILE = join(CONFIG_DIR, "config.json");

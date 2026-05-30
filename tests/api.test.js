@@ -9,3 +9,7 @@ test("getApiBase returns correct URL for AT", () => {
 test("getApiBase returns correct URL for DE", () => {
   assert.equal(getApiBase("de"), "https://api.marktguru.de/api/v1");
 });
+
+test("getApiBase throws on unsupported country", () => {
+  assert.throws(() => getApiBase("de.evil.com"), /Unsupported country/);
+});

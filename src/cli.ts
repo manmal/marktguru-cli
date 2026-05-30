@@ -2,7 +2,7 @@
 import { Command, InvalidArgumentError } from "commander";
 import { login } from "./commands/login.js";
 import { searchBuildCommand, searchRawCommand } from "./commands/search.js";
-import { getConfig, saveConfig, DEFAULT_ZIP_CODE, DEFAULT_COUNTRY } from "./config.js";
+import { getConfig, saveConfig, DEFAULT_ZIP_CODE, DEFAULT_COUNTRY, VALID_COUNTRIES } from "./config.js";
 import { QUERY_SYNTAX_HELP } from "./query.js";
 
 const program = new Command();
@@ -107,15 +107,13 @@ program
     }
   });
 
-const VALID_COUNTRIES = ["at", "de"];
-
 program
   .command("set-country <code>")
   .description("Set default country for searches (at, de)")
   .option("-j, --json", "Output JSON")
   .action(async (code: string, options) => {
     const normalized = code.toLowerCase();
-    if (!VALID_COUNTRIES.includes(normalized)) {
+    if (!(VALID_COUNTRIES as readonly string[]).includes(normalized)) {
       console.error(`Error: Invalid country "${code}". Valid options: ${VALID_COUNTRIES.join(", ")}`);
       process.exit(1);
     }

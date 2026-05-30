@@ -1,3 +1,5 @@
+import { VALID_COUNTRIES } from "./config.js";
+
 interface ExtractOptions {
   log?: (message: string) => void;
   country?: string;
@@ -113,6 +115,9 @@ async function validateKey(apiKey: string, apiBase: string): Promise<boolean> {
 export async function extractApiKey(options: ExtractOptions = {}): Promise<string> {
   const log = options.log;
   const country = options.country ?? "at";
+  if (!(VALID_COUNTRIES as readonly string[]).includes(country)) {
+    throw new Error(`Unsupported country "${country}". Valid options: ${VALID_COUNTRIES.join(", ")}`);
+  }
   const baseUrl = `https://www.marktguru.${country}`;
   const apiBase = `https://api.marktguru.${country}/api/v1`;
   const headers = await maybeGetHeaders();

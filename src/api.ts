@@ -1,6 +1,9 @@
-import { getConfig, DEFAULT_ZIP_CODE, DEFAULT_COUNTRY } from "./config.js";
+import { getConfig, DEFAULT_ZIP_CODE, DEFAULT_COUNTRY, VALID_COUNTRIES } from "./config.js";
 
 export function getApiBase(country: string): string {
+  if (!(VALID_COUNTRIES as readonly string[]).includes(country)) {
+    throw new Error(`Unsupported country "${country}". Valid options: ${VALID_COUNTRIES.join(", ")}`);
+  }
   return `https://api.marktguru.${country}/api/v1`;
 }
 
