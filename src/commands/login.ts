@@ -1,4 +1,4 @@
-import { saveConfig } from "../config.js";
+import { saveConfig, getConfig } from "../config.js";
 import { extractApiKey } from "../auth.js";
 
 interface LoginOptions {
@@ -29,7 +29,8 @@ export async function login(options: LoginOptions): Promise<void> {
   log("Extracting Marktguru API key (HTTP-only)...\n");
 
   try {
-    const apiKey = await extractApiKey({ log: json ? undefined : log });
+    const config = await getConfig();
+    const apiKey = await extractApiKey({ log: json ? undefined : log, country: config.country });
     await saveConfig({ apiKey });
     output({ success: true, apiKey }, json);
   } catch (e) {

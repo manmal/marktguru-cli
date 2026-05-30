@@ -1,6 +1,11 @@
-import { getConfig, DEFAULT_ZIP_CODE } from "./config.js";
+import { getConfig, DEFAULT_ZIP_CODE, DEFAULT_COUNTRY, VALID_COUNTRIES } from "./config.js";
 
-const API_BASE = "https://api.marktguru.at/api/v1";
+export function getApiBase(country: string): string {
+  if (!(VALID_COUNTRIES as readonly string[]).includes(country)) {
+    throw new Error(`Unsupported country "${country}". Valid options: ${VALID_COUNTRIES.join(", ")}`);
+  }
+  return `https://api.marktguru.${country}/api/v1`;
+}
 
 export interface Offer {
   id: number;
@@ -43,6 +48,7 @@ export interface SearchResult {
 export interface SearchOptions {
   query: string;
   zipCode?: string;
+  country?: string;
   limit?: number;
   offset?: number;
   retailerId?: number;
@@ -57,6 +63,7 @@ export async function search(options: SearchOptions): Promise<SearchResult> {
   }
 
   const zipCode = options.zipCode || config.zipCode || DEFAULT_ZIP_CODE;
+  const country = options.country || config.country || DEFAULT_COUNTRY;
 
   const params = new URLSearchParams({
     as: "web",
@@ -70,7 +77,7 @@ export async function search(options: SearchOptions): Promise<SearchResult> {
     params.set("retailerIds", String(options.retailerId));
   }
 
-  const url = `${API_BASE}/offers/search?${params}`;
+  const url = `${getApiBase(country)}/offers/search?${params}`;
 
   const response = await fetch(url, {
     headers: {

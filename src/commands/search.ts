@@ -57,6 +57,7 @@ interface SimpleSearchResult {
 
 export interface SearchCommandOptions {
   zip?: string;
+  country?: string;
   limit?: number;
   retailer?: string;
   json?: boolean;
@@ -153,20 +154,20 @@ function emitWarnings(warnings: string[]): void {
   }
 }
 
-async function ensureApiKey(json?: boolean): Promise<string | undefined> {
+async function ensureApiKey(json?: boolean, country?: string): Promise<string | undefined> {
   const config = await getConfig();
   if (config.apiKey) return config.apiKey;
 
   const log = json ? (msg: string) => console.error(msg) : (msg: string) => console.log(msg);
   log("No API key configured. Running login...");
 
-  const apiKey = await extractApiKey({ log });
+  const apiKey = await extractApiKey({ log, country: country ?? config.country });
   await saveConfig({ apiKey });
   return apiKey;
 }
 
 async function runSearch(query: string, options: SearchCommandOptions): Promise<void> {
-  const apiKey = await ensureApiKey(options.json);
+  const apiKey = await ensureApiKey(options.json, options.country);
   // Fetch more results if filtering by retailer (we'll filter client-side)
   const limit = normalizeLimit(options.limit);
   const fetchLimit = options.retailer ? Math.max(limit, 100) : limit;
@@ -174,6 +175,7 @@ async function runSearch(query: string, options: SearchCommandOptions): Promise<
   const result = await apiSearch({
     query,
     zipCode: options.zip,
+    country: options.country,
     limit: fetchLimit,
     apiKey,
   });
