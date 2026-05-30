@@ -119,12 +119,17 @@ program
       console.error(`Error: Invalid country "${code}". Valid options: ${VALID_COUNTRIES.join(", ")}`);
       process.exit(1);
     }
-    await saveConfig({ country: normalized });
+    const existing = await getConfig();
+    const countryChanged = existing.country !== normalized;
+    await saveConfig({ country: normalized, ...(countryChanged && { apiKey: undefined }) });
     const json = getJsonFlag(options);
     if (json) {
-      console.log(JSON.stringify({ success: true, country: normalized }));
+      console.log(JSON.stringify({ success: true, country: normalized, apiKeyCleared: countryChanged }));
     } else {
       console.log(`✓ Default country set to: ${normalized}`);
+      if (countryChanged && existing.apiKey) {
+        console.log("  API key cleared — run 'marktguru login' to fetch a matching key.");
+      }
     }
   });
 
