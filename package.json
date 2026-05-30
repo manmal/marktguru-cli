@@ -1,7 +1,7 @@
 {
   "name": "marktguru-cli",
   "version": "0.1.0",
-  "description": "CLI for Austrian Marktguru supermarket deals",
+  "description": "CLI for Marktguru supermarket deals in Austria and Germany",
   "type": "module",
   "bin": {
     "marktguru": "dist/cli.js"
