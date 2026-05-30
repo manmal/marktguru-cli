@@ -1,9 +1,8 @@
 interface ExtractOptions {
   log?: (message: string) => void;
+  country?: string;
 }
 
-const BASE_URL = "https://www.marktguru.at";
-const API_BASE = "https://api.marktguru.at/api/v1";
 const DEFAULT_ZIP_CODE = "1010";
 const MAX_SCRIPTS = 20;
 
@@ -55,14 +54,14 @@ async function fetchFirstOk(urls: string[], headers: Record<string, string>) {
   throw new Error("No URLs to fetch.");
 }
 
-function extractScriptUrls(html: string): string[] {
+function extractScriptUrls(html: string, baseUrl: string): string[] {
   const urls = new Set<string>();
   const regex = /<script[^>]+src=["']([^"']+)["'][^>]*>/gi;
   let match: RegExpExecArray | null;
   while ((match = regex.exec(html))) {
     let src = match[1];
     if (src.startsWith("//")) src = `https:${src}`;
-    if (src.startsWith("/")) src = `${BASE_URL}${src}`;
+    if (src.startsWith("/")) src = `${baseUrl}${src}`;
     if (src.startsWith("http")) urls.add(src);
   }
   return [...urls];
@@ -93,8 +92,8 @@ function findCandidates(text: string): string[] {
   return [...candidates];
 }
 
-async function validateKey(apiKey: string): Promise<boolean> {
-  const url = `${API_BASE}/offers/search?as=web&q=test&limit=1&zipCode=${DEFAULT_ZIP_CODE}`;
+async function validateKey(apiKey: string, apiBase: string): Promise<boolean> {
+  const url = `${apiBase}/offers/search?as=web&q=test&limit=1&zipCode=${DEFAULT_ZIP_CODE}`;
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 15000);
   try {
@@ -113,14 +112,17 @@ async function validateKey(apiKey: string): Promise<boolean> {
 
 export async function extractApiKey(options: ExtractOptions = {}): Promise<string> {
   const log = options.log;
+  const country = options.country ?? "at";
+  const baseUrl = `https://www.marktguru.${country}`;
+  const apiBase = `https://api.marktguru.${country}/api/v1`;
   const headers = await maybeGetHeaders();
 
   const entryUrls = [
-    `${BASE_URL}/`,
-    `${BASE_URL}/search`,
-    `${BASE_URL}/search?q=test`,
-    `${BASE_URL}/suche`,
-    `${BASE_URL}/suche?q=test`,
+    `${baseUrl}/`,
+    `${baseUrl}/search`,
+    `${baseUrl}/search?q=test`,
+    `${baseUrl}/suche`,
+    `${baseUrl}/suche?q=test`,
   ];
 
   log?.("→ Fetching entry HTML...");
@@ -129,7 +131,7 @@ export async function extractApiKey(options: ExtractOptions = {}): Promise<strin
 
   const candidates = new Set(findCandidates(html));
 
-  const scripts = extractScriptUrls(html).slice(0, MAX_SCRIPTS);
+  const scripts = extractScriptUrls(html, baseUrl).slice(0, MAX_SCRIPTS);
   if (scripts.length === 0) {
     throw new Error("No scripts found to scan for API keys.");
   }
@@ -147,7 +149,7 @@ export async function extractApiKey(options: ExtractOptions = {}): Promise<strin
   }
 
   for (const candidate of candidates) {
-    if (await validateKey(candidate)) {
+    if (await validateKey(candidate, apiBase)) {
       return candidate;
     }
   }

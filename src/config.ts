@@ -5,10 +5,12 @@ import { readFile, writeFile, mkdir } from "fs/promises";
 export interface Config {
   apiKey?: string;
   zipCode?: string;
+  country?: string;
   configPath: string;
 }
 
 export const DEFAULT_ZIP_CODE = "1010"; // Vienna
+export const DEFAULT_COUNTRY = "at";
 
 const CONFIG_DIR = join(homedir(), ".marktguru");
 const CONFIG_FILE = join(CONFIG_DIR, "config.json");
@@ -16,9 +18,10 @@ const CONFIG_FILE = join(CONFIG_DIR, "config.json");
 export async function getConfig(): Promise<Config> {
   try {
     const data = await readFile(CONFIG_FILE, "utf-8");
-    return { ...JSON.parse(data), configPath: CONFIG_FILE };
+    const parsed = JSON.parse(data);
+    return { country: DEFAULT_COUNTRY, ...parsed, configPath: CONFIG_FILE };
   } catch {
-    return { configPath: CONFIG_FILE };
+    return { country: DEFAULT_COUNTRY, configPath: CONFIG_FILE };
   }
 }
 

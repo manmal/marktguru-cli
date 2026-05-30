@@ -57,6 +57,7 @@ interface SimpleSearchResult {
 
 export interface SearchCommandOptions {
   zip?: string;
+  country?: string;
   limit?: number;
   retailer?: string;
   json?: boolean;
@@ -174,6 +175,7 @@ async function runSearch(query: string, options: SearchCommandOptions): Promise<
   const result = await apiSearch({
     query,
     zipCode: options.zip,
+    country: options.country,
     limit: fetchLimit,
     apiKey,
   });
