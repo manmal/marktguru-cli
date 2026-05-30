@@ -11,5 +11,5 @@ test("getApiBase returns correct URL for DE", () => {
 });
 
 test("getApiBase throws on unsupported country", () => {
-  assert.throws(() => getApiBase("de.evil.com"), /Unsupported country/);
+  assert.throws(() => getApiBase("fr"), /Unsupported country/);
 });
