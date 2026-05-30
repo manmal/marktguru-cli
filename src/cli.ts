@@ -2,14 +2,14 @@
 import { Command, InvalidArgumentError } from "commander";
 import { login } from "./commands/login.js";
 import { searchBuildCommand, searchRawCommand } from "./commands/search.js";
-import { getConfig, saveConfig, DEFAULT_ZIP_CODE } from "./config.js";
+import { getConfig, saveConfig, DEFAULT_ZIP_CODE, DEFAULT_COUNTRY, VALID_COUNTRIES } from "./config.js";
 import { QUERY_SYNTAX_HELP } from "./query.js";
 
 const program = new Command();
 
 program
   .name("marktguru")
-  .description("CLI for Austrian Marktguru supermarket deals")
+  .description("CLI for Marktguru supermarket deals (AT/DE)")
   .version("0.1.0")
   .option("-j, --json", "Output JSON (for all commands)");
 
@@ -44,7 +44,7 @@ const collectValues = (value: string, previous: string[]): string[] => {
 
 program
   .command("login")
-  .description("Extract API key from marktguru.at via HTTP")
+  .description("Extract API key from marktguru.at/de via HTTP")
   .option("-j, --json", "Output JSON")
   .action(async (options) => {
     await login({ ...options, json: getJsonFlag(options) });
@@ -108,6 +108,30 @@ program
   });
 
 program
+  .command("set-country <code>")
+  .description("Set default country for searches (at, de)")
+  .option("-j, --json", "Output JSON")
+  .action(async (code: string, options) => {
+    const normalized = code.toLowerCase();
+    if (!(VALID_COUNTRIES as readonly string[]).includes(normalized)) {
+      console.error(`Error: Invalid country "${code}". Valid options: ${VALID_COUNTRIES.join(", ")}`);
+      process.exit(1);
+    }
+    const existing = await getConfig();
+    const countryChanged = existing.country !== normalized;
+    await saveConfig({ country: normalized, ...(countryChanged && { apiKey: undefined }) });
+    const json = getJsonFlag(options);
+    if (json) {
+      console.log(JSON.stringify({ success: true, country: normalized, apiKeyCleared: countryChanged && !!existing.apiKey }));
+    } else {
+      console.log(`✓ Default country set to: ${normalized}`);
+      if (countryChanged && existing.apiKey) {
+        console.log("  API key cleared — run 'marktguru login' to fetch a matching key.");
+      }
+    }
+  });
+
+program
   .command("config")
   .description("Show current configuration")
   .option("-j, --json", "Output JSON")
@@ -119,12 +143,14 @@ program
         apiKey: config.apiKey ? config.apiKey.substring(0, 10) + "..." : null,
         apiKeySet: !!config.apiKey,
         zipCode: config.zipCode || DEFAULT_ZIP_CODE,
+        country: config.country || DEFAULT_COUNTRY,
         configPath: config.configPath,
       }));
     } else {
       console.log("Configuration:");
       console.log("  API Key:", config.apiKey ? config.apiKey.substring(0, 10) + "..." : "(not set)");
       console.log("  ZIP Code:", config.zipCode || `(default: ${DEFAULT_ZIP_CODE})`);
+      console.log("  Country:", config.country || `(default: ${DEFAULT_COUNTRY})`);
       console.log("  Config file:", config.configPath);
     }
   });

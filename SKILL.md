@@ -1,11 +1,11 @@
 ---
 name: marktguru-grocery-deals
-description: Look up grocery deals and offers via Marktguru CLI/API. Use when user asks about supermarket discounts, product prices, current promotions, or comparing deals across Austrian retailers (Hofer, Billa, Spar, Lidl, etc.).
+description: Look up grocery deals and offers via Marktguru CLI/API. Use when user asks about supermarket discounts, product prices, current promotions, or comparing deals across Austrian or German retailers (Hofer, Billa, Spar, Lidl, Penny, REWE, Kaufland, etc.).
 ---
 
 # Marktguru Grocery Deals
 
-Query Austrian grocery deals from Marktguru. Supports raw queries, structured search building, retailer filtering, and ZIP-code location targeting.
+Query grocery deals from Marktguru in Austria and Germany. Supports raw queries, structured search building, retailer filtering, ZIP-code location targeting, and country selection (AT/DE).
 
 ## Quick Reference
 
@@ -15,8 +15,9 @@ Query Austrian grocery deals from Marktguru. Supports raw queries, structured se
 | `search build` | Build query from structured flags |
 | `search syntax` | Show supported query syntax |
 | `set-zip <code>` | Set default ZIP code |
+| `set-country <code>` | Set default country (`at` or `de`, default: `at`) |
 | `config` | Show current configuration |
-| `login` | Extract API key from marktguru.at |
+| `login` | Extract API key from marktguru.at/de |
 
 ---
 
@@ -32,7 +33,15 @@ Scans site HTML and boot scripts for embedded API keys. No browser automation re
 ```bash
 npx marktguru-cli set-zip 1010
 npx marktguru-cli set-zip 8010  # Graz
+npx marktguru-cli set-zip 10115  # Berlin (DE)
 ```
+
+### Set Default Country
+```bash
+npx marktguru-cli set-country at  # Austria (default)
+npx marktguru-cli set-country de  # Germany
+```
+After switching country, re-run `login` — API keys are country-specific.
 
 ### Check Config
 ```bash
@@ -118,18 +127,22 @@ npx marktguru-cli search raw '"Coca Cola"'
 
 ## Known Retailers
 
-| Retailer | Notes |
-|----------|-------|
-| SPAR | |
-| INTERSPAR | Larger SPAR format |
-| SPAR-Gourmet | Premium SPAR |
-| BILLA | |
-| BILLA PLUS | Larger BILLA format |
-| HOFER | Austrian Aldi |
-| Lidl | |
-| PENNY | |
-| dm drogerie markt | Drugstore (some food items) |
-| BIPA | Drugstore |
+| Retailer              | AT | DE | Notes                       |
+|-----------------------|----|----|-----------------------------|
+| Lidl                  | ✓  | ✓  |                             |
+| PENNY                 | ✓  | ✓  |                             |
+| dm drogerie markt     | ✓  | ✓  | Drugstore (some food items) |
+| SPAR                  | ✓  |    |                             |
+| INTERSPAR             | ✓  |    | Larger SPAR format          |
+| SPAR-Gourmet          | ✓  |    | Premium SPAR                |
+| BILLA                 | ✓  |    |                             |
+| BILLA PLUS            | ✓  |    | Larger BILLA format         |
+| HOFER                 | ✓  |    | Austrian Aldi               |
+| BIPA                  | ✓  |    | Drugstore                   |
+| Kaufland              |    | ✓  |                             |
+| REWE                  |    | ✓  |                             |
+| Netto Marken-Discount |    | ✓  |                             |
+| ALDI                  |    | ✓  |                             |
 
 ---
 
@@ -209,6 +222,7 @@ npx marktguru-cli config --json
   "apiKey": "pCcm1AVCYa...",
   "apiKeySet": true,
   "zipCode": "1010",
+  "country": "at",
   "configPath": "/Users/.../.marktguru/config.json"
 }
 ```
@@ -223,6 +237,7 @@ npx marktguru-cli config --json
 | No results | Try broader terms, wildcards (`*`), or alternative spellings. |
 | Wrong location | Set ZIP code with `set-zip` or use `--zip` flag. |
 | API key expired | Re-run `npx marktguru-cli login` to refresh. |
+| Wrong country results | Run `set-country de` (or `at`), then `login` again — keys are country-specific. |
 
 ---
 
