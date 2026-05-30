@@ -127,22 +127,22 @@ npx marktguru-cli search raw '"Coca Cola"'
 
 ## Known Retailers
 
-| Retailer | AT | DE | Notes |
-|----------|----|-----|-------|
-| Lidl | ✓ | ✓ | |
-| PENNY | ✓ | ✓ | |
-| dm drogerie markt | ✓ | ✓ | Drugstore (some food items) |
-| SPAR | ✓ | | |
-| INTERSPAR | ✓ | | Larger SPAR format |
-| SPAR-Gourmet | ✓ | | Premium SPAR |
-| BILLA | ✓ | | |
-| BILLA PLUS | ✓ | | Larger BILLA format |
-| HOFER | ✓ | | Austrian Aldi |
-| BIPA | ✓ | | Drugstore |
-| Kaufland | | ✓ | |
-| REWE | | ✓ | |
-| Netto Marken-Discount | | ✓ | |
-| ALDI | | ✓ | |
+| Retailer              | AT | DE | Notes                       |
+|-----------------------|----|----|-----------------------------|
+| Lidl                  | ✓  | ✓  |                             |
+| PENNY                 | ✓  | ✓  |                             |
+| dm drogerie markt     | ✓  | ✓  | Drugstore (some food items) |
+| SPAR                  | ✓  |    |                             |
+| INTERSPAR             | ✓  |    | Larger SPAR format          |
+| SPAR-Gourmet          | ✓  |    | Premium SPAR                |
+| BILLA                 | ✓  |    |                             |
+| BILLA PLUS            | ✓  |    | Larger BILLA format         |
+| HOFER                 | ✓  |    | Austrian Aldi               |
+| BIPA                  | ✓  |    | Drugstore                   |
+| Kaufland              |    | ✓  |                             |
+| REWE                  |    | ✓  |                             |
+| Netto Marken-Discount |    | ✓  |                             |
+| ALDI                  |    | ✓  |                             |
 
 ---
 
