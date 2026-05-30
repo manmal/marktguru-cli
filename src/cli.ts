@@ -124,7 +124,7 @@ program
     await saveConfig({ country: normalized, ...(countryChanged && { apiKey: undefined }) });
     const json = getJsonFlag(options);
     if (json) {
-      console.log(JSON.stringify({ success: true, country: normalized, apiKeyCleared: countryChanged }));
+      console.log(JSON.stringify({ success: true, country: normalized, apiKeyCleared: countryChanged && !!existing.apiKey }));
     } else {
       console.log(`✓ Default country set to: ${normalized}`);
       if (countryChanged && existing.apiKey) {
