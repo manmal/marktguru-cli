@@ -3,7 +3,7 @@
 [![npm](https://img.shields.io/npm/v/marktguru-cli.svg)](https://www.npmjs.com/package/marktguru-cli)
 [![license](https://img.shields.io/github/license/manmal/marktguru-cli.svg)](https://github.com/manmal/marktguru-cli/blob/main/LICENSE)
 
-CLI for Austrian Marktguru supermarket deals.
+CLI for Marktguru supermarket deals in Austria and Germany.
 
 ## AI Agent Skill
 See [SKILL.md](SKILL.md) for a comprehensive reference designed for AI coding agents.
@@ -46,6 +46,11 @@ Set a default ZIP code:
 marktguru set-zip 1010
 ```
 
+Set a default country (`at` or `de`, default: `at`):
+```bash
+marktguru set-country de
+```
+
 Show config:
 ```bash
 marktguru config
@@ -72,6 +77,8 @@ Available for both `search raw` and `search build`:
 - `-j, --json`: JSON output
 
 If no API key is configured, `search` will automatically run `login` to extract one.
+
+Note: API keys are country-specific. After switching country with `set-country`, run `login` again to fetch the matching key.
 
 Builder-only:
 - `--term <value>`: Add a term (repeatable)
